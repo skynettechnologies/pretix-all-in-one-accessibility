@@ -1,3 +1,5 @@
-recursive-include pretix_all_in_one_accessibility/templates *.html
+include README.md
+include LICENSE
 recursive-include pretix_all_in_one_accessibility/static *
-
+recursive-include pretix_all_in_one_accessibility/templates *
+recursive-include pretix_all_in_one_accessibility *.py

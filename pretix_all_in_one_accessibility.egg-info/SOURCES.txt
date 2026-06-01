@@ -2,10 +2,14 @@ LICENSE
 MANIFEST.in
 README.md
 pyproject.toml
+setup.cfg
 setup.py
 pretix_all_in_one_accessibility/__init__.py
 pretix_all_in_one_accessibility/apps.py
 pretix_all_in_one_accessibility/forms.py
+pretix_all_in_one_accessibility/middleware.py
+pretix_all_in_one_accessibility/registration.py
+pretix_all_in_one_accessibility/signals.py
 pretix_all_in_one_accessibility/urls.py
 pretix_all_in_one_accessibility/views.py
 pretix_all_in_one_accessibility.egg-info/PKG-INFO

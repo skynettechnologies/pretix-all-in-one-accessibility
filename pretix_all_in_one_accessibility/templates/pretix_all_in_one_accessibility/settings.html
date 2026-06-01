@@ -2,29 +2,151 @@
 {% load i18n %}
 {% load static %}
 
+{% block title %}{% trans "All in One Accessibility — Settings" %}{% endblock %}
 
 {% block content %}
-<h2>{% trans "Accessibility Settings" %}</h2>
+<link rel="stylesheet" href="{% static 'pretix_all_in_one_accessibility/css/aioa.css' %}">
 
-<form method="post">
+<div class="row">
+    <div class="col-md-12">
+        <h2>{% trans "All in One Accessibility" %}</h2>
+<p class="text-muted">
+    <strong>NOTE: Currently, All in One Accessibility is dedicated to enhancing accessibility specifically for websites and online stores.
+    Please Upgrade to full version of <a href="https://ada.skynettechnologies.us/trial-subscription" target="_blank">All in One Accessibility Pro with 10 days free trial</a></strong>
+</p>
+<br>
+<p class="text-muted">
+    <strong>It may take a few seconds for changes to appear on your website. If you don't see the changes, try clearing your browser cache or checking in a private browsing window.</strong>
+</p>
+
+    </div>
+</div>
+
+{% if messages %}
+<div class="row">
+    <div class="col-md-12">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+<form method="post" class="form-horizontal">
     {% csrf_token %}
-    {{ form.as_p }}
 
-    <button type="submit" class="btn btn-primary">
-        {% trans "Save" %}
-    </button>
+    {% if form.errors %}
+    <div class="alert alert-danger">
+        <strong>{% trans "Please correct the errors below." %}</strong>
+        {{ form.non_field_errors }}
+    </div>
+    {% endif %}
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">{% trans "Widget Colour" %}</h3>
+        </div>
+        <div class="panel-body">
+            <div class="form-group {% if form.aioa_color_code.errors %}has-error{% endif %}">
+                <label class="col-md-3 control-label">{{ form.aioa_color_code.label }}</label>
+                <div class="col-md-9">
+                    {{ form.aioa_color_code }}
+                    <span class="help-block">{{ form.aioa_color_code.help_text }}</span>
+                    {% for error in form.aioa_color_code.errors %}<span class="help-block text-danger">{{ error }}</span>{% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">{% trans "Widget Position" %}</h3>
+        </div>
+        <div class="panel-body">
+            <div class="form-group">
+                <label class="col-md-3 control-label">{{ form.aioa_place.label }}</label>
+                <div class="col-md-9">{{ form.aioa_place }}</div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-9 col-md-offset-3">
+                    <label>
+                        {{ form.enable_widget_icon_position }}
+                        {{ form.enable_widget_icon_position.label }}
+                    </label>
+                </div>
+            </div>
+            <div id="custom-position-fields">
+                <div class="form-group">
+                    <label class="col-md-3 control-label">{{ form.to_the_right.label }}</label>
+                    <div class="col-md-4">{{ form.to_the_right }}</div>
+                    <div class="col-md-5">{{ form.to_the_right_px }}</div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label">{{ form.to_the_bottom.label }}</label>
+                    <div class="col-md-4">{{ form.to_the_bottom }}</div>
+                    <div class="col-md-5">{{ form.to_the_bottom_px }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">{% trans "Widget Size" %}</h3>
+        </div>
+        <div class="panel-body">
+            <div class="form-group">
+                <label class="col-md-3 control-label">{{ form.aioa_size.label }}</label>
+                <div class="col-md-9">{{ form.aioa_size }}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">{% trans "Icon Type" %}</h3>
+        </div>
+        <div class="panel-body">
+            <div class="form-group">
+                <label class="col-md-3 control-label">{{ form.aioa_icon_type.label }}</label>
+                <div class="col-md-9">{{ form.aioa_icon_type }}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">{% trans "Icon Size" %}</h3>
+        </div>
+        <div class="panel-body">
+            <div class="form-group">
+                <div class="col-md-9 col-md-offset-3">
+                    <label>
+                        {{ form.enable_icon_custom_size }}
+                        {{ form.enable_icon_custom_size.label }}
+                    </label>
+                </div>
+            </div>
+            <div class="form-group" id="icon-size-select-row">
+                <label class="col-md-3 control-label">{{ form.aioa_icon_size.label }}</label>
+                <div class="col-md-9">{{ form.aioa_icon_size }}</div>
+            </div>
+            <div class="form-group" id="icon-size-custom-row">
+                <label class="col-md-3 control-label">{{ form.aioa_size_value.label }}</label>
+                <div class="col-md-9">
+                    {{ form.aioa_size_value }}
+                    <span class="help-block">{{ form.aioa_size_value.help_text }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group submit-group">
+        <button type="submit" class="btn btn-primary btn-save">
+            {% trans "Save settings" %}
+        </button>
+    </div>
 </form>
-<link rel="stylesheet" href="{% static "pretix_all_in_one_accessibility/css/aioa.css" %}">
-<script type="application/javascript" src="{% static "pretix_all_in_one_accessibility/js/aioa.js" %}"></script>
 
+<script src="{% static 'pretix_all_in_one_accessibility/js/aioa.js' %}"></script>
 {% endblock %}
-
-
-
-
-
-
-
-
-
-
